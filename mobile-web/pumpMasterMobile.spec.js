@@ -4,7 +4,7 @@ const {BrowserUtils} = require("../utils/browserUtils")
 const {PumpViewPage}=require("../pages/pumpViewPage")
 const {AssertUtils} = require("../utils/assertUtils")
 
-test.describe('Pump Master - Valid Scenarios', ()=>{
+test.describe('Pump Master mobile - Valid Scenarios', ()=>{
     
   let browserUtils;
   let assertUtils;
@@ -109,6 +109,4 @@ test.describe('Pump Master - Valid Scenarios', ()=>{
         // search results should be shown as zero 0
         assertUtils.assertEqual(tableCount, 0)
     })
-
-
 })
