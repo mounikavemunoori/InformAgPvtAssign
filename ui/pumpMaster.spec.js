@@ -6,23 +6,23 @@ const {AssertUtils} = require("../utils/assertUtils")
 
 test.describe('Pump Master - Valid Scenarios', ()=>{
     
-  let browserUtils;
-  let assertUtils;
-  let pumpOverViewPage;
-  let loginPage;
+    let browserUtils;
+    let assertUtils;
+    let pumpOverViewPage;
+    let loginPage;
 
-  test.beforeEach(async ({ page }) => {
-     browserUtils = new BrowserUtils(page)
-     pumpOverViewPage = new PumpViewPage(page)
-     assertUtils = new AssertUtils(page)
-      loginPage = new LoginPage(page)
+    test.beforeEach(async ({ page }) => {
+        browserUtils = new BrowserUtils(page)
+        pumpOverViewPage = new PumpViewPage(page)
+        assertUtils = new AssertUtils(page)
+        loginPage = new LoginPage(page)
         await browserUtils.navigateToBrowser()
         await loginPage.enterUserName('farmer')
         await loginPage.enterPassword("1234")
         await loginPage.clickOnLoginButton()
         const isPumpOverPageVisible = await pumpOverViewPage.isPumpOverPageVisible()
         assertUtils.assertTrue(isPumpOverPageVisible)
-  });
+    })
 
     test('Validate that Secure Tenancy Login - success', async({page})=>{
         loginPage = new LoginPage(page)
@@ -38,7 +38,7 @@ test.describe('Pump Master - Valid Scenarios', ()=>{
         pumpOverViewPage = new PumpViewPage(page)
         const pumpTable = await pumpOverViewPage.getTableLength()
         expect(pumpTable).toBeGreaterThan(0)
-  });
+  })
     
     test('Validate that Search pump functionality', async({page})=>{
         pumpOverViewPage = new PumpViewPage(page)

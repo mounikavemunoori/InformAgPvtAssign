@@ -1,16 +1,16 @@
 
 import { test, expect, request } from '@playwright/test';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://pumpmaster:3000';
 let api;
 
 test.describe('Pump Master CRUD operations', ()=>{
     test.beforeAll(async () => {
-  api = await request.newContext({
-    baseURL: BASE_URL,
-    extraHTTPHeaders: {
-      'Content-Type': 'application/json'
-    }
+    api = await request.newContext({
+      baseURL: BASE_URL,
+      extraHTTPHeaders: {
+        'Content-Type': 'application/json'
+      }
   });
 });
 
