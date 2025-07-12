@@ -88,20 +88,7 @@ npx playwright  test --headed --project=chromium tests/spumpMaster.spec.js
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Here created different configs for api and web
 # Run API tests
 npx playwright test --config=playwright.config.api.js
 
