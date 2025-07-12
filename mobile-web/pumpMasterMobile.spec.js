@@ -11,18 +11,18 @@ test.describe('Pump Master mobile - Valid Scenarios', ()=>{
   let pumpOverViewPage;
   let loginPage;
 
-  test.beforeEach(async ({ page }) => {
-     browserUtils = new BrowserUtils(page)
-     pumpOverViewPage = new PumpViewPage(page)
-     assertUtils = new AssertUtils(page)
-      loginPage = new LoginPage(page)
+    test.beforeEach(async ({ page }) => {
+        browserUtils = new BrowserUtils(page)
+        pumpOverViewPage = new PumpViewPage(page)
+        assertUtils = new AssertUtils(page)
+        loginPage = new LoginPage(page)
         await browserUtils.navigateToBrowser()
         await loginPage.enterUserName('farmer')
         await loginPage.enterPassword("1234")
         await loginPage.clickOnLoginButton()
         const isPumpOverPageVisible = await pumpOverViewPage.isPumpOverPageVisible()
         assertUtils.assertTrue(isPumpOverPageVisible)
-  });
+    })
 
     test('Validate that Secure Tenancy Login - success', async({page})=>{
         loginPage = new LoginPage(page)
