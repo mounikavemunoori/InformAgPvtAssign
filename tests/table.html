@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PumpMaster - Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; }
+    nav { background: #f5f5f5; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; }
+    nav .nav-left { display: flex; gap: 20px; }
+    nav .nav-right { display: flex; gap: 20px; align-items: center; }
+    nav a { text-decoration: none; color: #333; font-weight: bold; }
+    .container { padding: 20px; }
+    .actions { margin-bottom: 20px; }
+    .actions input { padding: 5px; }
+    .actions button { margin-left: 10px; padding: 5px 10px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .modal { background: #fff; border: 1px solid #333; padding: 20px; width: 400px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; }
+    .modal.show { display: block; }
+    .modal label { display: block; margin: 10px 0 5px; }
+    .modal input, .modal select { width: 100%; padding: 5px; }
+    .modal-buttons { text-align: right; margin-top: 20px; }
+    .hidden { display: none; }
+    .login-box { width: 300px; margin: 100px auto; padding: 20px; border: 1px solid #ccc; }
+    .login-box label { display: block; margin: 10px 0 5px; }
+    .login-box input { width: 100%; padding: 5px; }
+    .login-box button { margin-top: 10px; width: 100%; padding: 8px; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div id="login-page" class="login-box">
+    <h2>Login</h2>
+    <label>Username:</label>
+    <input id="username" type="text" />
+    <label>Password:</label>
+    <input id="password" type="password" />
+    <button id="login-btn">Login</button>
+    <p id="login-error" class="error"></p>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="nav-bar" class="hidden">
+    <div class="nav-left">
+      <span><strong>PumpMaster</strong></span>
+      <a href="#">Dashboard</a>
+      <a href="#">Pumps</a>
+      <a href="#">Reports</a>
+      <a href="#">Alerts</a>
+    </div>
+    <div class="nav-right">
+      <input id="search-input" type="text" placeholder="Search pumps..." />
+      <span>🔔</span>
+      <span>JC</span>
+    </div>
+  </nav>
+
+  <!-- Pumps Overview -->
+  <div id="pumps-page" class="container hidden">
+    <h2>Pumps</h2>
+    <div class="actions">
+      <button id="new-pump-btn">New Pump</button>
+      <button id="delete-btn">Delete</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Pump Name</th>
+          <th>Type</th>
+          <th>Area/Block</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>Flow Rate</th>
+          <th>Offset</th>
+          <th>Current Pressure</th>
+          <th>Min Pressure</th>
+          <th>Max Pressure</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="pump-list">
+        <tr>
+          <td>Pump 1</td><td>Centrifugal</td><td>Area A</td><td>34.0522</td><td>-118.2437</td><td>1000 GPM</td><td>5 sec</td>
+          <td>150 psi</td><td>120 psi</td><td>180 psi</td>
+          <td><button onclick="showEditModal()">Edit</button></td>
+        </tr>
+        <tr>
+          <td>Pump 2</td><td>Submersible</td><td>Area B</td><td>34.0522</td><td>-118.2437</td><td>800 GPM</td><td>3 sec</td>
+          <td>130 psi</td><td>100 psi</td><td>160 psi</td>
+          <td><button onclick="showEditModal()">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pump Edit Modal -->
+  <div id="pump-modal" class="modal">
+    <h3>Edit Pump</h3>
+    <label>Pump ID</label>
+    <input id="pump-id" type="text" value="12345" readonly />
+    <label>Pump Name</label>
+    <input id="pump-name" type="text" value="Pump 1" />
+    <label>Pump Type</label>
+    <select id="pump-type"><option>Centrifugal</option><option>Submersible</option></select>
+    <label>Area</label>
+    <select id="pump-area"><option>Area A</option><option>Area B</option></select>
+    <label>Latitude</label>
+    <input id="pump-lat" type="text" value="34.0522" />
+    <label>Longitude</label>
+    <input id="pump-lon" type="text" value="-118.2437" />
+    <!-- Add other fields as needed -->
+    <div class="modal-buttons">
+      <button onclick="closeModal()">Cancel</button>
+      <button id="save-btn">Save</button>
+    </div>
+  </div>
+
+  <script>
+    const validUser = { username: "farmer", password: "1234" };
+
+    document.getElementById('login-btn').addEventListener('click', () => {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      if (username === validUser.username && password === validUser.password) {
+        document.getElementById('login-page').classList.add('hidden');
+        document.getElementById('nav-bar').classList.remove('hidden');
+        document.getElementById('pumps-page').classList.remove('hidden');
+      } else {
+        document.getElementById('login-error').textContent = "Invalid credentials.";
+      }
+    });
+
+    document.getElementById('new-pump-btn').addEventListener('click', () => {
+      document.getElementById('pump-modal').classList.add('show');
+    });
+
+    function showEditModal() {
+      document.getElementById('pump-modal').classList.add('show');
+    }
+    function closeModal() {
+      document.getElementById('pump-modal').classList.remove('show');
+    }
+
+    // Save handler: updates the first pump row for demo
+    document.getElementById('save-btn').addEventListener('click', () => {
+      const newName = document.getElementById('pump-name').value;
+      const newType = document.getElementById('pump-type').value;
+      const newArea = document.getElementById('pump-area').value;
+      const newLat = document.getElementById('pump-lat').value;
+      const newLon = document.getElementById('pump-lon').value;
+
+      const firstRow = document.querySelector('#pump-list tr:first-child');
+      if (firstRow) {
+        const cells = firstRow.getElementsByTagName('td');
+        cells[0].textContent = newName;
+        cells[1].textContent = newType;
+        cells[2].textContent = newArea;
+        cells[3].textContent = newLat;
+        cells[4].textContent = newLon;
+      }
+
+      closeModal();
+      alert('Pump updated successfully!');
+    });
+
+    // Search filter
+    document.getElementById('search-input').addEventListener('keyup', function() {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll('#pump-list tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? '' : 'none';
+      });
+    });
+  </script>
+
+</body>
+</html>
