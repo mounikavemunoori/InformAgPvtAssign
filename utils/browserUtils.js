@@ -13,8 +13,8 @@ export class BrowserUtils{
      */
     async clickOnELement(element, timeout){
         timeout=timeout!=undefined?timeout:0
-        await this.page.waitForTimeout(timeout)
-        await this.page.click(element)
+        await this.page.locator(element).waitFor({ state: 'visible', timeout: timeout });
+        await this.page.locator(element).click()
     }
 
     /**
@@ -25,7 +25,7 @@ export class BrowserUtils{
      */
     async enterInputField(element, value, timeout){
         timeout=timeout!=undefined?timeout:0
-        await this.page.waitForTimeout(timeout)
+        await this.page.locator(element).waitFor({ state: 'visible', timeout: timeout });
         await this.page.fill(element, value)
     }
 
@@ -37,7 +37,7 @@ export class BrowserUtils{
     async getElementTextContent(element, timeout){
         console.log("timeeee-->",element)
         timeout=timeout!=undefined?timeout:0
-        await this.page.waitForTimeout(timeout)
+        await this.page.locator(element).waitFor({ state: 'visible', timeout: timeout });
         return await this.page.locator(element).textContent()
     }
       /**
@@ -70,7 +70,7 @@ export class BrowserUtils{
      */
     async getAllElementText(selector, timeOut) {
         timeOut = timeOut != undefined ? timeOut : 0
-        await this.page.waitForTimeout(timeOut)
+       await this.page.locator(element).waitFor({ state: 'visible', timeout: timeOut });
         const elementTexts = await this.page.$$eval(selector, (elements) => {
             return elements.map((element) => element.innerText);
         });
